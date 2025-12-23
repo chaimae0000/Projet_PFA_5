@@ -33,4 +33,4 @@ def train_rd_clf():
     print(f"Classification Report :- \n{classification_report(y_test, rd_clf.predict(X_test))}")
 
     # Retourner la variable pour l’importer ailleurs
-    return rd_clf_acc
+    return rd_clf_acc , rd_clf

@@ -24,4 +24,4 @@ def train_gradient_boosting():
     print(f"Classification Report :- \n {classification_report(y_test, gb.predict(X_test))}")
 
     # Retourner le score test et le modèle
-    return gb_acc
+    return gb_acc , gb

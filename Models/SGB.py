@@ -26,4 +26,4 @@ def train_stochastic_gradient_boosting():
     print(f"Classification Report :- \n {classification_report(y_test, sgb.predict(X_test))}")
 
     # Retourner le score test et le modèle
-    return sgb_acc
+    return sgb_acc , sgb

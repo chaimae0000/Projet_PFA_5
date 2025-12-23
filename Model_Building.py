@@ -1,15 +1,46 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-cleaned_df= pd.read_csv('cleaned_kidney_disease.csv')
-print(cleaned_df.head())
-def load_data():
- ind_col = [col for col in cleaned_df.columns if col != 'class']
- dep_col = 'class'
+def load_data(return_preprocessor=False):
+    df = pd.read_csv("data/cleaned_kidney_disease.csv")  # adapte le chemin
+    y = df["class"]
+    X = df.drop(columns=["class"])
 
- X = cleaned_df[ind_col]
- y = cleaned_df[dep_col]
+    cat_cols = X.select_dtypes(include=["object"]).columns.tolist()
+    num_cols = [c for c in X.columns if c not in cat_cols]
 
- X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 0)
+    numeric_tf = Pipeline(steps=[
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler", StandardScaler())  # optionnel, tu peux enlever
+    ])
 
- return X_train, X_test, y_train, y_test
+    categorical_tf = Pipeline(steps=[
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("onehot", OneHotEncoder(handle_unknown="ignore"))
+    ])
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("num", numeric_tf, num_cols),
+            ("cat", categorical_tf, cat_cols),
+        ]
+    )
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    # Fit preprocessing uniquement sur train
+    preprocessor.fit(X_train)
+
+    X_train_t = preprocessor.transform(X_train)
+    X_test_t = preprocessor.transform(X_test)
+
+    if return_preprocessor:
+        return X_train_t, X_test_t, y_train, y_test, preprocessor, X.columns.tolist()
+
+    return X_train_t, X_test_t, y_train, y_test

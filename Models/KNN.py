@@ -24,4 +24,4 @@ def train_knn():
     print(f"Classification Report :- \n {classification_report(y_test, knn.predict(X_test))}")
     
     # Retourner la variable pour l’importer ailleurs
-    return knn_acc
+    return knn_acc , knn

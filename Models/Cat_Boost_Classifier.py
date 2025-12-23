@@ -24,4 +24,4 @@ def train_catboost():
     print(f"Classification Report :- \n {classification_report(y_test, cat.predict(X_test))}")
 
     # Retourner le score test et le modèle
-    return cat_acc
+    return cat_acc , cat

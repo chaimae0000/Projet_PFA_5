@@ -20,4 +20,4 @@ def train_xgb():
     print(f"Confusion Matrix :- \n{confusion_matrix(y_test, xgb.predict(X_test))}\n")
     print(f"Classification Report :- \n {classification_report(y_test, xgb.predict(X_test))}")
     
-    return xgb_acc
+    return xgb_acc , xgb

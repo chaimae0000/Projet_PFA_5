@@ -24,4 +24,4 @@ def train_extra_trees():
     print(f"Classification Report :- \n {classification_report(y_test, etc.predict(X_test))}")
 
     # Retourner le score test et le modèle
-    return etc_acc
+    return etc_acc , etc

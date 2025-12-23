@@ -19,4 +19,4 @@ def train_lgbm():
     print(f"{confusion_matrix(y_test, lgbm.predict(X_test))}\n")
     print(classification_report(y_test, lgbm.predict(X_test)))
 
-    return lgbm_acc
+    return lgbm_acc , lgbm

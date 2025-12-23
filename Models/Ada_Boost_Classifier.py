@@ -11,7 +11,7 @@ def train_ada_boost():
     # Chargement   des données
     X_train, X_test, y_train, y_test = load_data()
     dtc = train_dtc()[1]  # Obtenir le modèle DTC entraîné
-    ada = AdaBoostClassifier(base_estimator = dtc)
+    ada = AdaBoostClassifier(estimator=dtc)
     ada.fit(X_train, y_train)
 
 # accuracy score, confusion matrix and classification report of ada boost
@@ -24,4 +24,4 @@ def train_ada_boost():
     print(f"Confusion Matrix :- \n{confusion_matrix(y_test, ada.predict(X_test))}\n")
     print(f"Classification Report :- \n {classification_report(y_test, ada.predict(X_test))}")
     # Retourner le score test et le modèle
-    return ada_acc
+    return ada_acc , ada
